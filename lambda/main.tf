@@ -71,6 +71,13 @@ resource "aws_lambda_event_source_mapping" "event_source_mapping" {
   function_name                      = aws_lambda_function.this.qualified_arn
   batch_size = 100 // The largest number of records that Lambda will retrieve
   maximum_batching_window_in_seconds = 30  // The maximum amount of time to gather records before invoking the function
+
+  dynamic "scaling_config" {
+    for_each = var.sqs_lambda_event_source_mapping_maximum_concurrency != null ? [true] : []
+    content {
+      maximum_concurrency = var.sqs_lambda_event_source_mapping_maximum_concurrency
+    }
+  }
 }
 
 resource "aws_lambda_alias" "alias" {
