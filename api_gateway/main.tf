@@ -2,6 +2,10 @@ resource "aws_api_gateway_rest_api" "this" {
   description = var.api_description
   name        = var.api_name
   body        = var.api_shcema
+
+  # enable content compression (gzip) for responses
+  # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-gzip-compression-decompression.html
+  minimum_compression_size = 256
 }
 
 resource "aws_api_gateway_deployment" "this" {
