@@ -48,6 +48,13 @@ resource "aws_cloudwatch_event_target" "this" {
   arn            = var.sqs_queue_config.arn
   input_path     = var.event_target_input_path
 
+  dynamic "sqs_target" {
+    for_each = var.is_fifo ? [true] : []
+    content {
+      message_group_id = var.messageGroupId
+    }
+  }
+
   dynamic "dead_letter_config" {
     for_each = var.dlq_queue_config!=null ? [true] : []
     content {

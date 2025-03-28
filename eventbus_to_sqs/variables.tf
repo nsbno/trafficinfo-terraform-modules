@@ -55,3 +55,15 @@ variable "event_pattern" {
     detail_type = optional(list(string), null)
   })
 }
+
+variable "is_fifo" {
+  default     = false
+  description = "Is the SQS queue to send mesaages to a FIFO queue."
+  type        = bool
+}
+
+variable "messageGroupId" {
+  description = "Used when the SQS queue is a FIFO queue."
+  default     = null
+  type        = string
+}
